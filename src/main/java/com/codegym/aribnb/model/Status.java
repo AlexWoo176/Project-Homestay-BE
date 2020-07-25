@@ -1,4 +1,7 @@
 package com.codegym.aribnb.model;
 
-public class Status {
+public enum  Status {
+    AVAILABLE,
+    BOOKED,
+    UNAVAILABLE
 }
