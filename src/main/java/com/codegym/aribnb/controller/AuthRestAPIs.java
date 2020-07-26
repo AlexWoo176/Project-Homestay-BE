@@ -32,6 +32,15 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthRestAPIs {
+    public static final String FAIL_USERNAME_IS_ALREADY_TOKEN = "Fail -> Username is already token!";
+    public static final String SUCCESS = "Success";
+    public static final String FAIL_EMAIL_IS_ALREADY_IN_USE = "Fail -> Email is already in use!";
+    public static final String FAIL_CAUSE_USER_ROLE_NOT_FIND = "Fail! -> Cause: User Role not find.";
+    public static final String USER_REGISTERED_WITH_ROLE_HOST_SUCCESSFULLY = "User registered with ROLE_HOST successfully!";
+    public static final String FAIL_USERNAME_ALREADY_EXISTS = "Fail -> Username already exists!";
+    public static final String FAIL_EMAIL_ALREADY_USES = "Fail -> Email already uses!";
+    public static final String USER_REGISTERED_WITH_ROLE_GUEST_SUCCESSFULLY = "User registered with ROLE_GUEST successfully!";
+    public static final String FAIL_CAUSE_USER_ROLE_NOT_FIND1 = "Fail! -> Cause: User Role not find.";
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -62,7 +71,7 @@ public class AuthRestAPIs {
             Long id = user.getId();
 
             return new ResponseEntity<ResponseMessage>(
-                    new ResponseMessage(true, "succsess" + loginRequest.getPassword(), new JwtResponse(id, jwt, userDetails.getUsername(), userDetails.getAuthorities())),
+                    new ResponseMessage(true, SUCCESS + loginRequest.getPassword(), new JwtResponse(id, jwt, userDetails.getUsername(), userDetails.getAuthorities())),
                     HttpStatus.OK);
         } catch (DisabledException e) {
             e.printStackTrace();
@@ -79,13 +88,13 @@ public class AuthRestAPIs {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<ResponseMessage>(
-                    new ResponseMessage(false, "Fail -> Username is already token!", null),
+                    new ResponseMessage(false, FAIL_USERNAME_IS_ALREADY_TOKEN, null),
                     HttpStatus.BAD_REQUEST);
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity<ResponseMessage>(
-                    new ResponseMessage(false, "Fail -> Email is already in use!", null),
+                    new ResponseMessage(false, FAIL_EMAIL_IS_ALREADY_IN_USE, null),
                     HttpStatus.BAD_REQUEST);
         }
 
@@ -95,14 +104,14 @@ public class AuthRestAPIs {
 
         Set<Role> roles = new HashSet<>();
         Role adminRole = roleRepository.findByName(RoleName.ROLE_HOST)
-                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                .orElseThrow(() -> new RuntimeException(FAIL_CAUSE_USER_ROLE_NOT_FIND));
         roles.add(adminRole);
         roles.add(adminRole);
         user.setRoles(roles);
         userRepository.save(user);
 
         return new ResponseEntity<ResponseMessage>(
-                new ResponseMessage(true, "User registered with ROLE_HOST successfully!", null),
+                new ResponseMessage(true, USER_REGISTERED_WITH_ROLE_HOST_SUCCESSFULLY, null),
                 HttpStatus.OK);
     }
 
@@ -112,13 +121,13 @@ public class AuthRestAPIs {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<ResponseMessage>(
-                    new ResponseMessage(false, "Fail -> Username already exists!", null),
+                    new ResponseMessage(false, FAIL_USERNAME_ALREADY_EXISTS, null),
                     HttpStatus.BAD_REQUEST);
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity<ResponseMessage>(
-                    new ResponseMessage(false, "Fail -> Email already uses!", null),
+                    new ResponseMessage(false, FAIL_EMAIL_ALREADY_USES, null),
                     HttpStatus.BAD_REQUEST);
         }
 
@@ -127,14 +136,14 @@ public class AuthRestAPIs {
                 passwordEncoder.encode(signUpRequest.getPassword()));
 
         Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+        Role userRole = roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new RuntimeException(FAIL_CAUSE_USER_ROLE_NOT_FIND1));
         roles.add(userRole);
         roles.add(userRole);
         user.setRoles(roles);
         userRepository.save(user);
 
         return new ResponseEntity<ResponseMessage>(
-                new ResponseMessage(true, "User registered with ROLE_GUEST successfully!", null),
+                new ResponseMessage(true, USER_REGISTERED_WITH_ROLE_GUEST_SUCCESSFULLY, null),
                 HttpStatus.OK);
     }
 }
