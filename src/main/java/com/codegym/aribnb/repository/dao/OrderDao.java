@@ -1,4 +1,4 @@
-package com.codegym.aribnb.repository;
+package com.codegym.aribnb.repository.dao;
 
 import com.codegym.aribnb.message.response.OrderDetail;
 import com.codegym.aribnb.message.response.UserOrderList;
