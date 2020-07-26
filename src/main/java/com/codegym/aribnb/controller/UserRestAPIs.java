@@ -30,6 +30,8 @@ import java.util.List;
 @RestController
 public class UserRestAPIs {
 
+    public static final String CONFIRM_SUCCESS = "Confirm Success";
+    public static final String CONFIRM_FAIL = "confirm fail";
     @Autowired
     private IUserService userService;
 
@@ -89,11 +91,11 @@ public class UserRestAPIs {
             UserPrinciple user = (UserPrinciple) userDetails;
             Long id = user.getId();
             return new  ResponseEntity<ResponseMessage>(
-                    new ResponseMessage(true,"Confirm Success",new JwtResponse(id, jwt,
+                    new ResponseMessage(true, CONFIRM_SUCCESS,new JwtResponse(id, jwt,
                             userDetails.getUsername(), userDetails.getAuthorities())),
                     HttpStatus.OK);
         } catch (BadCredentialsException e) {
-            return new ResponseEntity<ResponseMessage>(new ResponseMessage(false, "confirm fail", null), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<ResponseMessage>(new ResponseMessage(false, CONFIRM_FAIL, null), HttpStatus.NOT_FOUND);
         }
     }
 }
