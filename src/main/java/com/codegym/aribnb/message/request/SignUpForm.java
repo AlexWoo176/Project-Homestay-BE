@@ -22,7 +22,7 @@ public class SignUpForm {
     private Set<String> role;
 
     @NotBlank
-    @Size(min = 6, max = 36)
+    @Size(min = 6, max = 128)
     private String password;
 
     public String getName() {

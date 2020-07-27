@@ -11,6 +11,8 @@ import com.codegym.aribnb.repository.IRoleRepository;
 import com.codegym.aribnb.repository.IUserRepository;
 import com.codegym.aribnb.security.jwt.JwtProvider;
 import com.codegym.aribnb.security.services.UserPrinciple;
+import com.codegym.aribnb.service.IUserService;
+import com.codegym.aribnb.service.impl.RoleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,19 +44,19 @@ public class AuthRestAPIs {
     public static final String USER_REGISTERED_WITH_ROLE_GUEST_SUCCESSFULLY = "User registered with ROLE_GUEST successfully!";
     public static final String FAIL_CAUSE_USER_ROLE_NOT_FIND1 = "Fail! -> Cause: User Role not find.";
     @Autowired
-    private AuthenticationManager authenticationManager;
+    AuthenticationManager authenticationManager;
 
     @Autowired
-    private IUserRepository userRepository;
+    IUserRepository userRepository;
 
     @Autowired
-    private IRoleRepository roleRepository;
+    IRoleRepository roleRepository;
 
     @Autowired
-    private JwtProvider jwtProvider;
+    JwtProvider jwtProvider;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) throws Exception {

@@ -1,5 +1,6 @@
 package com.codegym.aribnb.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -37,8 +38,9 @@ public class User {
     @Email
     private String email;
 
+    @JsonIgnore
     @NotBlank
-    @Size(min = 3, max = 36)
+    @Size(min = 6, max = 128)
     private String password;
 
     @Lob
